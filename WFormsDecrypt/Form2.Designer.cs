@@ -44,6 +44,18 @@
             this.btn_DecryptWForce = new System.Windows.Forms.Button();
             this.progressBar = new System.Windows.Forms.ProgressBar();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.lbl_successes = new System.Windows.Forms.Label();
+            this.lbl_errors = new System.Windows.Forms.Label();
+            this.lbl_tasks = new System.Windows.Forms.Label();
+            this.lbl_Keys = new System.Windows.Forms.Label();
+            this.lbl_tiempoEstimado = new System.Windows.Forms.Label();
+            this.lbl_tiempoRestante = new System.Windows.Forms.Label();
+            this.lbl_tiempoTranscurrido = new System.Windows.Forms.Label();
+            this.lbl_clavesSegundo = new System.Windows.Forms.Label();
+            this.lbl_clavesPendientes = new System.Windows.Forms.Label();
+            this.lbl_clavesProbadas = new System.Windows.Forms.Label();
+            this.lbl_clavesPosibles = new System.Windows.Forms.Label();
+            this.label16 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
@@ -54,18 +66,6 @@
             this.label8 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
-            this.label16 = new System.Windows.Forms.Label();
-            this.lbl_clavesPosibles = new System.Windows.Forms.Label();
-            this.lbl_clavesProbadas = new System.Windows.Forms.Label();
-            this.lbl_clavesPendientes = new System.Windows.Forms.Label();
-            this.lbl_clavesSegundo = new System.Windows.Forms.Label();
-            this.lbl_tiempoTranscurrido = new System.Windows.Forms.Label();
-            this.lbl_tiempoRestante = new System.Windows.Forms.Label();
-            this.lbl_tiempoEstimado = new System.Windows.Forms.Label();
-            this.lbl_Keys = new System.Windows.Forms.Label();
-            this.lbl_tasks = new System.Windows.Forms.Label();
-            this.lbl_errors = new System.Windows.Forms.Label();
-            this.lbl_successes = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -237,6 +237,114 @@
             this.panel1.Size = new System.Drawing.Size(722, 85);
             this.panel1.TabIndex = 15;
             // 
+            // lbl_successes
+            // 
+            this.lbl_successes.AutoSize = true;
+            this.lbl_successes.Location = new System.Drawing.Point(582, 59);
+            this.lbl_successes.Name = "lbl_successes";
+            this.lbl_successes.Size = new System.Drawing.Size(13, 13);
+            this.lbl_successes.TabIndex = 21;
+            this.lbl_successes.Text = "0";
+            // 
+            // lbl_errors
+            // 
+            this.lbl_errors.AutoSize = true;
+            this.lbl_errors.Location = new System.Drawing.Point(582, 41);
+            this.lbl_errors.Name = "lbl_errors";
+            this.lbl_errors.Size = new System.Drawing.Size(13, 13);
+            this.lbl_errors.TabIndex = 20;
+            this.lbl_errors.Text = "0";
+            // 
+            // lbl_tasks
+            // 
+            this.lbl_tasks.AutoSize = true;
+            this.lbl_tasks.Location = new System.Drawing.Point(582, 23);
+            this.lbl_tasks.Name = "lbl_tasks";
+            this.lbl_tasks.Size = new System.Drawing.Size(13, 13);
+            this.lbl_tasks.TabIndex = 19;
+            this.lbl_tasks.Text = "0";
+            // 
+            // lbl_Keys
+            // 
+            this.lbl_Keys.AutoSize = true;
+            this.lbl_Keys.Location = new System.Drawing.Point(582, 5);
+            this.lbl_Keys.Name = "lbl_Keys";
+            this.lbl_Keys.Size = new System.Drawing.Size(13, 13);
+            this.lbl_Keys.TabIndex = 18;
+            this.lbl_Keys.Text = "0";
+            // 
+            // lbl_tiempoEstimado
+            // 
+            this.lbl_tiempoEstimado.AutoSize = true;
+            this.lbl_tiempoEstimado.Location = new System.Drawing.Point(367, 5);
+            this.lbl_tiempoEstimado.Name = "lbl_tiempoEstimado";
+            this.lbl_tiempoEstimado.Size = new System.Drawing.Size(13, 13);
+            this.lbl_tiempoEstimado.TabIndex = 17;
+            this.lbl_tiempoEstimado.Text = "0";
+            // 
+            // lbl_tiempoRestante
+            // 
+            this.lbl_tiempoRestante.AutoSize = true;
+            this.lbl_tiempoRestante.Location = new System.Drawing.Point(367, 23);
+            this.lbl_tiempoRestante.Name = "lbl_tiempoRestante";
+            this.lbl_tiempoRestante.Size = new System.Drawing.Size(13, 13);
+            this.lbl_tiempoRestante.TabIndex = 16;
+            this.lbl_tiempoRestante.Text = "0";
+            // 
+            // lbl_tiempoTranscurrido
+            // 
+            this.lbl_tiempoTranscurrido.AutoSize = true;
+            this.lbl_tiempoTranscurrido.Location = new System.Drawing.Point(367, 41);
+            this.lbl_tiempoTranscurrido.Name = "lbl_tiempoTranscurrido";
+            this.lbl_tiempoTranscurrido.Size = new System.Drawing.Size(13, 13);
+            this.lbl_tiempoTranscurrido.TabIndex = 15;
+            this.lbl_tiempoTranscurrido.Text = "0";
+            // 
+            // lbl_clavesSegundo
+            // 
+            this.lbl_clavesSegundo.AutoSize = true;
+            this.lbl_clavesSegundo.Location = new System.Drawing.Point(107, 59);
+            this.lbl_clavesSegundo.Name = "lbl_clavesSegundo";
+            this.lbl_clavesSegundo.Size = new System.Drawing.Size(13, 13);
+            this.lbl_clavesSegundo.TabIndex = 14;
+            this.lbl_clavesSegundo.Text = "0";
+            // 
+            // lbl_clavesPendientes
+            // 
+            this.lbl_clavesPendientes.AutoSize = true;
+            this.lbl_clavesPendientes.Location = new System.Drawing.Point(107, 41);
+            this.lbl_clavesPendientes.Name = "lbl_clavesPendientes";
+            this.lbl_clavesPendientes.Size = new System.Drawing.Size(13, 13);
+            this.lbl_clavesPendientes.TabIndex = 13;
+            this.lbl_clavesPendientes.Text = "0";
+            // 
+            // lbl_clavesProbadas
+            // 
+            this.lbl_clavesProbadas.AutoSize = true;
+            this.lbl_clavesProbadas.Location = new System.Drawing.Point(107, 23);
+            this.lbl_clavesProbadas.Name = "lbl_clavesProbadas";
+            this.lbl_clavesProbadas.Size = new System.Drawing.Size(13, 13);
+            this.lbl_clavesProbadas.TabIndex = 12;
+            this.lbl_clavesProbadas.Text = "0";
+            // 
+            // lbl_clavesPosibles
+            // 
+            this.lbl_clavesPosibles.AutoSize = true;
+            this.lbl_clavesPosibles.Location = new System.Drawing.Point(107, 5);
+            this.lbl_clavesPosibles.Name = "lbl_clavesPosibles";
+            this.lbl_clavesPosibles.Size = new System.Drawing.Size(13, 13);
+            this.lbl_clavesPosibles.TabIndex = 11;
+            this.lbl_clavesPosibles.Text = "0";
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(3, 41);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(98, 13);
+            this.label16.TabIndex = 10;
+            this.label16.Text = "Claves Pendientes:";
+            // 
             // label15
             // 
             this.label15.AutoSize = true;
@@ -327,114 +435,6 @@
             this.label6.TabIndex = 0;
             this.label6.Text = "Claves/s:";
             // 
-            // label16
-            // 
-            this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(3, 41);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(98, 13);
-            this.label16.TabIndex = 10;
-            this.label16.Text = "Claves Pendientes:";
-            // 
-            // lbl_clavesPosibles
-            // 
-            this.lbl_clavesPosibles.AutoSize = true;
-            this.lbl_clavesPosibles.Location = new System.Drawing.Point(107, 5);
-            this.lbl_clavesPosibles.Name = "lbl_clavesPosibles";
-            this.lbl_clavesPosibles.Size = new System.Drawing.Size(13, 13);
-            this.lbl_clavesPosibles.TabIndex = 11;
-            this.lbl_clavesPosibles.Text = "0";
-            // 
-            // lbl_clavesProbadas
-            // 
-            this.lbl_clavesProbadas.AutoSize = true;
-            this.lbl_clavesProbadas.Location = new System.Drawing.Point(107, 23);
-            this.lbl_clavesProbadas.Name = "lbl_clavesProbadas";
-            this.lbl_clavesProbadas.Size = new System.Drawing.Size(13, 13);
-            this.lbl_clavesProbadas.TabIndex = 12;
-            this.lbl_clavesProbadas.Text = "0";
-            // 
-            // lbl_clavesPendientes
-            // 
-            this.lbl_clavesPendientes.AutoSize = true;
-            this.lbl_clavesPendientes.Location = new System.Drawing.Point(107, 41);
-            this.lbl_clavesPendientes.Name = "lbl_clavesPendientes";
-            this.lbl_clavesPendientes.Size = new System.Drawing.Size(13, 13);
-            this.lbl_clavesPendientes.TabIndex = 13;
-            this.lbl_clavesPendientes.Text = "0";
-            // 
-            // lbl_clavesSegundo
-            // 
-            this.lbl_clavesSegundo.AutoSize = true;
-            this.lbl_clavesSegundo.Location = new System.Drawing.Point(107, 59);
-            this.lbl_clavesSegundo.Name = "lbl_clavesSegundo";
-            this.lbl_clavesSegundo.Size = new System.Drawing.Size(13, 13);
-            this.lbl_clavesSegundo.TabIndex = 14;
-            this.lbl_clavesSegundo.Text = "0";
-            // 
-            // lbl_tiempoTranscurrido
-            // 
-            this.lbl_tiempoTranscurrido.AutoSize = true;
-            this.lbl_tiempoTranscurrido.Location = new System.Drawing.Point(367, 41);
-            this.lbl_tiempoTranscurrido.Name = "lbl_tiempoTranscurrido";
-            this.lbl_tiempoTranscurrido.Size = new System.Drawing.Size(13, 13);
-            this.lbl_tiempoTranscurrido.TabIndex = 15;
-            this.lbl_tiempoTranscurrido.Text = "0";
-            // 
-            // lbl_tiempoRestante
-            // 
-            this.lbl_tiempoRestante.AutoSize = true;
-            this.lbl_tiempoRestante.Location = new System.Drawing.Point(367, 23);
-            this.lbl_tiempoRestante.Name = "lbl_tiempoRestante";
-            this.lbl_tiempoRestante.Size = new System.Drawing.Size(13, 13);
-            this.lbl_tiempoRestante.TabIndex = 16;
-            this.lbl_tiempoRestante.Text = "0";
-            // 
-            // lbl_tiempoEstimado
-            // 
-            this.lbl_tiempoEstimado.AutoSize = true;
-            this.lbl_tiempoEstimado.Location = new System.Drawing.Point(367, 5);
-            this.lbl_tiempoEstimado.Name = "lbl_tiempoEstimado";
-            this.lbl_tiempoEstimado.Size = new System.Drawing.Size(13, 13);
-            this.lbl_tiempoEstimado.TabIndex = 17;
-            this.lbl_tiempoEstimado.Text = "0";
-            // 
-            // lbl_Keys
-            // 
-            this.lbl_Keys.AutoSize = true;
-            this.lbl_Keys.Location = new System.Drawing.Point(582, 5);
-            this.lbl_Keys.Name = "lbl_Keys";
-            this.lbl_Keys.Size = new System.Drawing.Size(13, 13);
-            this.lbl_Keys.TabIndex = 18;
-            this.lbl_Keys.Text = "0";
-            // 
-            // lbl_tasks
-            // 
-            this.lbl_tasks.AutoSize = true;
-            this.lbl_tasks.Location = new System.Drawing.Point(582, 23);
-            this.lbl_tasks.Name = "lbl_tasks";
-            this.lbl_tasks.Size = new System.Drawing.Size(13, 13);
-            this.lbl_tasks.TabIndex = 19;
-            this.lbl_tasks.Text = "0";
-            // 
-            // lbl_errors
-            // 
-            this.lbl_errors.AutoSize = true;
-            this.lbl_errors.Location = new System.Drawing.Point(582, 41);
-            this.lbl_errors.Name = "lbl_errors";
-            this.lbl_errors.Size = new System.Drawing.Size(13, 13);
-            this.lbl_errors.TabIndex = 20;
-            this.lbl_errors.Text = "0";
-            // 
-            // lbl_successes
-            // 
-            this.lbl_successes.AutoSize = true;
-            this.lbl_successes.Location = new System.Drawing.Point(582, 59);
-            this.lbl_successes.Name = "lbl_successes";
-            this.lbl_successes.Size = new System.Drawing.Size(13, 13);
-            this.lbl_successes.TabIndex = 21;
-            this.lbl_successes.Text = "0";
-            // 
             // form_decryptor1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -456,7 +456,9 @@
             this.Controls.Add(this.text_key);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "form_decryptor1";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "Decryptor1";
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
