@@ -1,4 +1,5 @@
-﻿using SICLib.Models;
+﻿using SICLib.Decryptor;
+using SICLib.Models;
 using System;
 using System.Collections.Generic;
 using System.Security.Cryptography;
@@ -70,12 +71,7 @@ namespace SICLib.Manager
         }
 
         public DateTime StartAtTime { get; private set; } = DateTime.Now;
-
-
-
         private byte[] cryptedBytes;
-        private TripleDESCryptoServiceProvider MyTripleDESCryptoService = new TripleDESCryptoServiceProvider();
-
         private PartialByte[] _partialBytes;       
 
 
@@ -85,10 +81,6 @@ namespace SICLib.Manager
             _partialBytes = partialBytes;
 
             cryptedBytes = Convert.FromBase64String(cryptedText);
-            MyTripleDESCryptoService = new TripleDESCryptoServiceProvider();
-            MyTripleDESCryptoService.Clear();
-            MyTripleDESCryptoService.Mode = CipherMode.ECB;
-            MyTripleDESCryptoService.Padding = PaddingMode.PKCS7;
         }
 
         Task[] tasks = new Task[10];
@@ -209,15 +201,7 @@ namespace SICLib.Manager
             }
         }
 
-        public DecryptedObject TripleDesDecrypt(byte[] key)
-        {
-            if (key.Length != 24) return null;
-            MyTripleDESCryptoService.Key = key;
-            var MyCrytpoTransform = MyTripleDESCryptoService.CreateDecryptor();
-            byte[] MyresultArray = MyCrytpoTransform.TransformFinalBlock(cryptedBytes, 0, cryptedBytes.Length);
-            DecryptedObject obj = new DecryptedObject(MyresultArray, key);
-            return obj;
-        }
+
 
         public void ProccessKey()
         {
@@ -227,7 +211,7 @@ namespace SICLib.Manager
             DecryptedObject decryptedObject;
             try
             {
-                decryptedObject = TripleDesDecrypt(keyBytes);
+                decryptedObject = new TDesService().Decrypt(keyBytes, cryptedBytes);
             }
             catch (Exception)
             {

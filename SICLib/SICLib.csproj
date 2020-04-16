@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Decryptor\TDesService.cs" />
     <Compile Include="Manager\DecryptorPlus.cs" />
     <Compile Include="Manager\FileManager.cs" />
     <Compile Include="Manager\FormDataManager.cs" />
