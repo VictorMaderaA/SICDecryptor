@@ -49,6 +49,7 @@
   <ItemGroup>
     <Compile Include="Manager\DecryptorPlus.cs" />
     <Compile Include="Manager\FileManager.cs" />
+    <Compile Include="Manager\FormDataManager.cs" />
     <Compile Include="Manager\StringBuilder.cs" />
     <Compile Include="Models\DecryptedObject.cs" />
     <Compile Include="Models\PartialByte.cs" />

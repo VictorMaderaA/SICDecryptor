@@ -16,6 +16,7 @@ namespace SICLib.Manager
         private readonly string RXAlphaNumericChars = "[a-zA-Z0-9]";
         private readonly string RXHexChars = "[\x30-\x39]|[\x41-\x46]|[\x61-\x66]";
         private readonly string RXCommonLettersChars = "[E|A|O|S|R|T]";
+        private readonly string RXSpaceChar = @"[\x20]";
 
         private readonly string RXHexKey = @"([\s|\-|.|_|:]*[\x30-\x39]|[\x41-\x46]|[\x61-\x66]){2,}";
         private readonly string RXWords = @"([^\W_]+[^\s,]*)";
@@ -24,18 +25,24 @@ namespace SICLib.Manager
 
         public StringBuilder(string line)
         {
-            _line = line;
+            _line = string.Copy(line);
         }
 
         public StringBuilder New(string line)
         {
-            _line = line;
+            _line = string.Copy(line);
             return this;
         }
 
         public StringBuilder RemoveNewLines()
         {
             _line = _line.Replace(Environment.NewLine, " ");
+            return this;
+        }
+
+        public StringBuilder RemoveChar(char c)
+        {
+            _line = _line.Replace(c, ' ');
             return this;
         }
 
@@ -53,8 +60,7 @@ namespace SICLib.Manager
 
         public StringBuilder RemoveAsciiExtraSimbolsChars()
         {
-            string regex = RXAsciiExtraSimbolsChars;
-            _line = Regex.Replace(_line, regex, string.Empty);
+            _line = Regex.Replace(_line, RXAsciiExtraSimbolsChars, string.Empty);
             return this;
         }
 
@@ -62,62 +68,69 @@ namespace SICLib.Manager
         {
             var sb = new System.Text.StringBuilder();
             foreach(var c in _line)
-                if (Regex.IsMatch(c.ToString(), RXAlphaNumericChars + @"|[\s]"))
+                if (char.IsLetterOrDigit(c))
                     sb.Append(c);
-            _line = sb.ToString();
+                else if(char.IsWhiteSpace(c))
+                    sb.Append('_');
+            _line = sb.ToString().Replace("_"," ");
+            //var matches = Regex.Matches(_line, RXAlphaNumericChars + "+");
+            //var s = string.Empty;
+            //foreach (var m in matches)
+            //    s += m.ToString() + " ";
+            //_line = s;
             return this;
         }
 
-        public StringBuilder RemoveNoneHexChars()
+
+
+        public int CountChars()
         {
-            var sb = new System.Text.StringBuilder();
-            foreach (var c in _line)
-                if (Regex.IsMatch(c.ToString(), RXHexChars + @"|[\s]"))
-                    sb.Append(c);
-            _line = sb.ToString();
-            return this;
+            return _line.Length;
         }
 
-        public StringBuilder RemoveNoneHexKey()
-        {
-            var matches = Regex.Matches(_line, RXHexKey);
-            var s = string.Empty;
-            foreach (var m in matches)
-                s += m.ToString() + " ";
-            _line = s;
-            return this;
-        }
 
         public int CountAlphanumericChars()
         {
-            return Regex.Matches(_line, RXAlphaNumericChars).Count;
+            int x = 0;
+            foreach (var c in _line)
+                if (Regex.IsMatch(c.ToString(), RXAlphaNumericChars, RegexOptions.IgnoreCase))
+                    x++;
+            return x;
         }
+
+        public int CountNoAlphanumericChars()
+        {
+            int x = 0;
+            foreach (var c in _line)
+                if (!Regex.IsMatch(c.ToString(), RXAlphaNumericChars, RegexOptions.IgnoreCase))
+                    x++;
+            return x;
+        }
+
+
 
         public int CountHexadecimalChars()
         {
-            return Regex.Matches(_line, RXHexChars).Count;
+            int x = 0;
+            foreach (var c in _line)
+                if (Regex.IsMatch(c.ToString(), RXHexChars, RegexOptions.IgnoreCase))
+                    x++;
+            return x;
         }
 
-        public int CountCommonChars()
+        public int CountNoHexadecimalChars()
         {
-            return Regex.Matches(_line, RXCommonLettersChars, RegexOptions.IgnoreCase).Count;
-        }
-
-        public int CountWords()
-        {
-            return Regex.Matches(_line, RXWords).Count;
-        }
-
-        public int CountHexBytes()
-        {
-            return Regex.Matches(_line, RXHexKey).Count;
+            int x = 0;
+            foreach (var c in _line)
+                if (!Regex.IsMatch(c.ToString(), RXHexChars, RegexOptions.IgnoreCase))
+                    x++;
+            return x;
         }
 
         public string GetString()
         {
             return _line;
         }
-
 
 
     }
