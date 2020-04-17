@@ -123,17 +123,6 @@ namespace SICLib.Manager
             keyQueueTask.Wait();
         }
 
-        public int getNumTasksRunning()
-        {
-            int n = 0;
-            foreach (var t in tasks)
-            {
-                if(t != null)
-                    n += (t.Status == TaskStatus.Running)? 1 : 0;
-            }
-            return n;
-        }
-
         public int ProccessNextKeyTask(int key)
         {
             ProccessKey();
@@ -270,12 +259,12 @@ namespace SICLib.Manager
 
             string line = $"{foundClave}";
             line += $";{decryptedObject.GetBytesKeyHex()}"; //Llave utilizada
-            line += $";{cDChars};{cPChars}"; //Numero de Caracteres en String
+            line += $";{cDChars};{cPChars}"; //Numero de Caracteres en la String
             line += $";{cCharDif}"; // Diferencia Numercia de Caracteres entre original y procesada
-            line += $";{cDIsAlpha};{cPIsAlpha}"; //Numero de Caracteres Alphanumericos
-            line += $";{cDNoAlpha};{cPNoAlpha}"; //Numero de Caracteres No Alphanumericos
-            line += $";{cDIsHex};{cPIsHex}"; //Numero de Caracteres Hexadecimales
-            line += $";{cDNoHex};{cPNoHex}"; //Numero de Caracteres No Hexadecimales
+            line += $";{cDIsAlpha};{cPIsAlpha}"; //Numero de Caracteres Alphanumericos original y procesada
+            line += $";{cDNoAlpha};{cPNoAlpha}"; //Numero de Caracteres No Alphanumericos original y procesada
+            line += $";{cDIsHex};{cPIsHex}"; //Numero de Caracteres Hexadecimales original y procesada
+            line += $";{cDNoHex};{cPNoHex}"; //Numero de Caracteres No Hexadecimales original y procesada
 
             line += $";{sProcessed}"; // String Procesada
             line += $";{sDecyptPrintable}"; // String original sin saltos de linea ni ';'

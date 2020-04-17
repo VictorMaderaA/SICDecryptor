@@ -12,7 +12,7 @@ namespace SICLib.Decryptor
 
         public TDesService(CipherMode cipher = CipherMode.ECB, PaddingMode padding = PaddingMode.Zeros)
         {
-            CryptoService = new TripleDESCryptoServiceProvider();
+            CryptoService = new DESCryptoServiceProvider();
             CipherMode = cipher;
             PaddingMode = padding;
         }
