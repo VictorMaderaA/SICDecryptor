@@ -113,7 +113,7 @@ namespace SICLib.Manager
                 {
                     if (PendingKeysCount <= 0)
                     {
-                        await Task.Delay(5);
+                        await Task.Delay(1);
                         break;
                     }
                     if (tasks[i] == null || tasks[i].Status == TaskStatus.RanToCompletion)
@@ -148,13 +148,13 @@ namespace SICLib.Manager
             var completed = false;
             do
             {
-                if (PendingKeysCount > 5000)
+                if (PendingKeysCount > 15000)
                 {
-                    await Task.Delay(100);
+                    await Task.Delay(250);
                     continue;
                 }
 
-                for(int i = 0; i < 1000; i++)
+                for(int i = 0; i < 10000; i++)
                 {
                     byte[] r = GenerateNextKey();
                     if(r == null)
