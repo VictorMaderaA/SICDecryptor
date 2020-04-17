@@ -1,37 +1,33 @@
 ﻿using SICLib.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SICLib.Decryptor
 {
     public class TDesService
     {
 
-        private TripleDESCryptoServiceProvider CryptoService;
+        private SymmetricAlgorithm CryptoService;
+        private CipherMode CipherMode;
+        private PaddingMode PaddingMode;
 
-        public TDesService()
+        public TDesService(CipherMode cipher = CipherMode.ECB, PaddingMode padding = PaddingMode.Zeros)
         {
             CryptoService = new TripleDESCryptoServiceProvider();
-            //We choose ECB(Electronic code Book)
-            CryptoService.Mode = CipherMode.ECB;
-            //padding mode(if any extra byte added)
-            CryptoService.Padding = PaddingMode.PKCS7;
+            CipherMode = cipher;
+            PaddingMode = padding;
         }
 
         public DecryptedObject Decrypt(byte[] key, byte[] cryptedBytes)
         {
             if (key.Length != 24) return null;
-            CryptoService.Key = key;
-            var MyCrytpoTransform = CryptoService.CreateDecryptor();
+            CryptoService.Mode = CipherMode;
+            CryptoService.Padding = PaddingMode;
+            var MyCrytpoTransform = CryptoService.CreateDecryptor(key, key);
             byte[] MyresultArray = MyCrytpoTransform.TransformFinalBlock(cryptedBytes, 0, cryptedBytes.Length);
-            DecryptedObject obj = new DecryptedObject(MyresultArray, key);
             CryptoService.Clear();
-            return obj;
+            return new DecryptedObject(MyresultArray, key);
         }
+
 
     }
 }

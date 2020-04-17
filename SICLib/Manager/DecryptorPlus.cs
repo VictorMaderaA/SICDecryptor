@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace SICLib.Manager
@@ -202,7 +203,7 @@ namespace SICLib.Manager
         }
 
 
-
+        TDesService decryptor = new TDesService();
         public void ProccessKey()
         {
             var keyBytes = GetNextPendingKey();
@@ -211,7 +212,7 @@ namespace SICLib.Manager
             DecryptedObject decryptedObject;
             try
             {
-                decryptedObject = new TDesService().Decrypt(keyBytes, cryptedBytes);
+                decryptedObject = decryptor.Decrypt(keyBytes, cryptedBytes);
             }
             catch (Exception)
             {
@@ -231,7 +232,12 @@ namespace SICLib.Manager
         {
             var filePath = @"C:\temp\" + StartAtTime.ToString(@"d_HH_mm") + @"_resultAscii.csv";
 
+            
             string sDecryptOrig = decryptedObject.GetDecodedString(Encoding.ASCII);
+
+            if (!Regex.Match(sDecryptOrig, "[C|c][L|l][A|a][V|v|B|b][E|e]", RegexOptions.IgnoreCase).Success)
+                return;
+
             var sDecyptPrintable = new StringBuilder(sDecryptOrig).RemoveNewLines()
                 .RemoveChar(';').RemoveChar('\n').RemoveChar('?').RemoveAsciiControllChars().GetString();
 

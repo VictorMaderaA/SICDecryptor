@@ -1,7 +1,10 @@
-﻿using SICLib.Manager;
+﻿using SICLib.Decryptor;
+using SICLib.Manager;
 using SICLib.Models;
 using System;
 using System.IO;
+using System.Security.Cryptography;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -66,7 +69,20 @@ namespace WFormsDecrypt
 
         private void btn_DecryptWKey_Click(object sender, EventArgs e)
         {
-
+            string text;
+            try
+            {
+                var keyBytes = PartialByte.GetBytesFromPartialBytes(PartialBytesArray);
+                var textoCifrado = Convert.FromBase64String(text_mensajeCifrado.Text);
+                var decryptedObj = new TDesService(CipherMode.CBC,PaddingMode.PKCS7)
+                    .Decrypt(keyBytes, textoCifrado);
+                text = decryptedObj.GetDecodedString(Encoding.ASCII);
+            }
+            catch (Exception ex)
+            {
+                text = $"Error {ex.Message}";
+            }
+            text_mensaje.Text = text;
         }
 
         private void btn_DecryptWForce_Click(object sender, EventArgs e)

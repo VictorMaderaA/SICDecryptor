@@ -173,7 +173,7 @@ namespace SICLib.Models
                 _nextByte.iterate();
         }
 
-        public static byte[] StringToByteArrayFastest(string hex)
+        private static byte[] StringToByteArrayFastest(string hex)
         {
             if (hex.Length % 2 == 1)
                 throw new Exception("The binary key cannot have an odd number of digits");
@@ -191,12 +191,17 @@ namespace SICLib.Models
         public static int GetHexVal(char hex)
         {
             int val = (int)hex;
-            //For uppercase A-F letters:
-            //return val - (val < 58 ? 48 : 55);
-            //For lowercase a-f letters:
-            //return val - (val < 58 ? 48 : 87);
-            //Or the two combined, but a bit slower:
             return val - (val < 58 ? 48 : (val < 97 ? 55 : 87));
+        }
+
+        public static byte[] GetBytesFromPartialBytes(PartialByte[] bytes)
+        {
+            byte[] b = new byte[24];
+            for (int i = 0; i < 24; i++)
+            {
+                b[i] = bytes[i].GetByte;
+            }
+            return b;
         }
 
     }
