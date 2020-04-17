@@ -2,7 +2,6 @@
 using SICLib.Models;
 using System;
 using System.Collections.Generic;
-using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -235,8 +234,12 @@ namespace SICLib.Manager
             
             string sDecryptOrig = decryptedObject.GetDecodedString(Encoding.ASCII);
 
-            if (!Regex.Match(sDecryptOrig, "[C|c][L|l][A|a][V|v|B|b][E|e]", RegexOptions.IgnoreCase).Success)
+            bool foundClave = true;
+            if (!Regex.Match(sDecryptOrig, "[Cc][Ll][Aa][VvBb][Ee]", RegexOptions.IgnoreCase).Success)
+            {
+                foundClave = false;
                 return;
+            }
 
             var sDecyptPrintable = new StringBuilder(sDecryptOrig).RemoveNewLines()
                 .RemoveChar(';').RemoveChar('\n').RemoveChar('?').RemoveAsciiControllChars().GetString();
@@ -265,7 +268,7 @@ namespace SICLib.Manager
             int cCharDif = cDChars - cPChars; // Diferencia Numercia de Caracteres entre original y procesada
 
 
-            string line = string.Empty;
+            string line = $"{foundClave}";
             line += $";{decryptedObject.GetBytesKeyHex()}"; //Llave utilizada
             line += $";{cDChars};{cPChars}"; //Numero de Caracteres en String
             line += $";{cCharDif}"; // Diferencia Numercia de Caracteres entre original y procesada
