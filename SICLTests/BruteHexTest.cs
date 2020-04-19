@@ -23,6 +23,13 @@ namespace SICLTests
 
         }
 
+        [Test]
+        public void test2()
+        {
+            string line = "esto no es una ya sabes que jaja pero esta noclaveno ultima si lo es";
+            Console.WriteLine((Regex.Match(line, "[Cc][Ll][Aa][VvBb][Ee]", RegexOptions.IgnoreCase).Success)? 1 : 0);
+        }
+
     }
 
 }

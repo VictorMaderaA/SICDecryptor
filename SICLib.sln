@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SICLTests", "SICLTests\SICL
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WFormsDecrypt", "WFormsDecrypt\WFormsDecrypt.csproj", "{ED8DE268-DB21-474D-92E4-C44D768BBAAF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleTestApp", "ConsoleTestApp\ConsoleTestApp.csproj", "{6519F128-CD49-4962-8F46-B269017D9E07}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{ED8DE268-DB21-474D-92E4-C44D768BBAAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ED8DE268-DB21-474D-92E4-C44D768BBAAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ED8DE268-DB21-474D-92E4-C44D768BBAAF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6519F128-CD49-4962-8F46-B269017D9E07}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6519F128-CD49-4962-8F46-B269017D9E07}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6519F128-CD49-4962-8F46-B269017D9E07}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6519F128-CD49-4962-8F46-B269017D9E07}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

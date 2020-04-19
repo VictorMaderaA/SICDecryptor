@@ -1,4 +1,5 @@
 ﻿using SICLib.Models;
+using System.IO;
 using System.Security.Cryptography;
 
 namespace SICLib.Decryptor
@@ -10,25 +11,43 @@ namespace SICLib.Decryptor
         private CipherMode CipherMode;
         private PaddingMode PaddingMode;
 
-        public TDesService(CipherMode cipher = CipherMode.ECB, PaddingMode padding = PaddingMode.Zeros)
+        public TDesService(CipherMode cipher = CipherMode.ECB, PaddingMode padding = PaddingMode.None)
         {
-            CryptoService = new DESCryptoServiceProvider();
+            CryptoService = new TripleDESCryptoServiceProvider();
             CipherMode = cipher;
             PaddingMode = padding;
         }
 
+        //public DecryptedObject Decrypt(byte[] key, byte[] cryptedBytes)
+        //{
+        //    if (key.Length != 24) throw new System.Exception("Wrong Size");
+        //    CryptoService.Mode = CipherMode;
+        //    CryptoService.Padding = PaddingMode;
+        //    CryptoService.KeySize = 192;
+        //    CryptoService.BlockSize = 64;
+        //    var MyCrytpoTransform = CryptoService.CreateDecryptor(key, key);
+        //    byte[] MyresultArray = MyCrytpoTransform.TransformFinalBlock(cryptedBytes, 0, cryptedBytes.Length);
+        //    CryptoService.Clear();
+        //    return new DecryptedObject(MyresultArray, key);
+        //}
+
         public DecryptedObject Decrypt(byte[] key, byte[] cryptedBytes)
         {
-            if (key.Length != 24) throw new System.Exception("Wrong Size");
+            var CryptoService = new TripleDESCryptoServiceProvider();
+
+            CryptoService.Key = key;
             CryptoService.Mode = CipherMode;
             CryptoService.Padding = PaddingMode;
-            CryptoService.KeySize = 192;
-            CryptoService.BlockSize = 64;
-            var MyCrytpoTransform = CryptoService.CreateDecryptor(key, key);
+
+            var MyCrytpoTransform = CryptoService.CreateDecryptor();
+
             byte[] MyresultArray = MyCrytpoTransform.TransformFinalBlock(cryptedBytes, 0, cryptedBytes.Length);
+
             CryptoService.Clear();
+
             return new DecryptedObject(MyresultArray, key);
         }
+
 
 
     }

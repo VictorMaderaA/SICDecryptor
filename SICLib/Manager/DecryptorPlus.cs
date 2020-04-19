@@ -221,13 +221,12 @@ namespace SICLib.Manager
             var filePath = @"C:\temp\" + StartAtTime.ToString(@"d_HH_mm") + @"_resultAscii.csv";
 
             
-            string sDecryptOrig = decryptedObject.GetDecodedString(Encoding.ASCII);
+            string sDecryptOrig = decryptedObject.GetDecodedString(ASCIIEncoding.ASCII);
 
             bool foundClave = true;
             if (!Regex.Match(sDecryptOrig, "[Cc][Ll][Aa][VvBb][Ee]", RegexOptions.IgnoreCase).Success)
             {
                 foundClave = false;
-                return;
             }
 
             var sDecyptPrintable = new StringBuilder(sDecryptOrig).RemoveNewLines()
