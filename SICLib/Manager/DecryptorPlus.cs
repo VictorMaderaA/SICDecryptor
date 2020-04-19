@@ -83,7 +83,7 @@ namespace SICLib.Manager
             cryptedBytes = Convert.FromBase64String(cryptedText);
         }
 
-        Task[] tasks = new Task[10];
+        Task[] tasks = new Task[15];
         public async Task Decrypt()
         {
             string line = string.Empty;

@@ -74,7 +74,7 @@ namespace WFormsDecrypt
             {
                 var keyBytes = PartialByte.GetBytesFromPartialBytes(PartialBytesArray);
                 var textoCifrado = Convert.FromBase64String(text_mensajeCifrado.Text);
-                var decryptedObj = new TDesService(CipherMode.CBC,PaddingMode.PKCS7)
+                var decryptedObj = new TDesService()
                     .Decrypt(keyBytes, textoCifrado);
                 text = decryptedObj.GetDecodedString(Encoding.ASCII);
             }
@@ -87,9 +87,6 @@ namespace WFormsDecrypt
 
         private void btn_DecryptWForce_Click(object sender, EventArgs e)
         {
-            btn_DecryptWForce.Enabled = false;
-            btn_DecryptWKey.Enabled = false;
-
             if (PartialBytesArray == null || PartialBytesArray.Length <= 0)
                 return;
             if (string.IsNullOrWhiteSpace(text_mensajeCifrado.Text) || string.IsNullOrEmpty(text_mensajeCifrado.Text))
@@ -105,14 +102,16 @@ namespace WFormsDecrypt
             BruteDecryptorStarted();
             await Task.Run(() => decryptor.Decrypt());
             BruteFinished();
-            btn_DecryptWForce.Enabled = true;
-            btn_DecryptWKey.Enabled = true;
+
         }
 
 
 
         private void BruteDecryptorStarted()
         {
+            btn_DecryptWForce.Enabled = false;
+            btn_DecryptWKey.Enabled = false;
+            checkBox_SkipLsb.Enabled = false;
             InitProcessTimer();
             ProcessTimer.Start();
         }
@@ -126,6 +125,10 @@ namespace WFormsDecrypt
                 lbl_tiempoTranscurrido.Text = new TimeSpan(0, 0, (int)(DateTime.Now - decryptor.StartAtTime).TotalSeconds).ToString(@"d\.hh\:mm\:ss");
             decryptor = null;
             progressBar.Value = 100;
+
+            btn_DecryptWForce.Enabled = true;
+            btn_DecryptWKey.Enabled = true;
+            checkBox_SkipLsb.Enabled = true;
         }
 
 
@@ -177,8 +180,8 @@ namespace WFormsDecrypt
                 text_hexKey.AppendText(b.HexPartialString + "-");
                 combinations *= b.Combinations;
             }
-            PosibleKeys = combinations;
-            lbl_clavesPosibles.Text = combinations.ToString();
+            PosibleKeys = (checkBox_SkipLsb.Checked)? combinations / 2 : combinations;
+            lbl_clavesPosibles.Text = PosibleKeys.ToString();
         }
 
         private bool LoadFile(out string path, out string contents)
@@ -205,6 +208,12 @@ namespace WFormsDecrypt
                 }
             }
             return flag;
+        }
+
+        private void checkBox_SkipLsb_CheckedChanged(object sender, EventArgs e)
+        {
+            if (PartialBytesArray == null) return;
+            ShowHexKeyaFromPartialBytes(PartialBytesArray);
         }
     }
 }

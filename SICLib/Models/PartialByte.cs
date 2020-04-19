@@ -124,6 +124,8 @@ namespace SICLib.Models
             {
                 iterateHex1();
             }
+            if (GetByte % 2 != 0)
+                iterate();
         }
 
         private void iterateHex1()

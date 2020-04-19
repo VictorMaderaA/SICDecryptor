@@ -66,6 +66,7 @@
             this.label8 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
+            this.checkBox_SkipLsb = new System.Windows.Forms.CheckBox();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -435,11 +436,25 @@
             this.label6.TabIndex = 0;
             this.label6.Text = "Claves/s:";
             // 
+            // checkBox_SkipLsb
+            // 
+            this.checkBox_SkipLsb.AutoSize = true;
+            this.checkBox_SkipLsb.Checked = true;
+            this.checkBox_SkipLsb.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox_SkipLsb.Location = new System.Drawing.Point(374, 376);
+            this.checkBox_SkipLsb.Name = "checkBox_SkipLsb";
+            this.checkBox_SkipLsb.Size = new System.Drawing.Size(70, 17);
+            this.checkBox_SkipLsb.TabIndex = 16;
+            this.checkBox_SkipLsb.Text = "Skip LSB";
+            this.checkBox_SkipLsb.UseVisualStyleBackColor = true;
+            this.checkBox_SkipLsb.CheckedChanged += new System.EventHandler(this.checkBox_SkipLsb_CheckedChanged);
+            // 
             // form_decryptor1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1184, 495);
+            this.Controls.Add(this.checkBox_SkipLsb);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.progressBar);
             this.Controls.Add(this.btn_DecryptWForce);
@@ -507,5 +522,6 @@
         private System.Windows.Forms.Label lbl_clavesProbadas;
         private System.Windows.Forms.Label lbl_clavesPosibles;
         private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.CheckBox checkBox_SkipLsb;
     }
 }
