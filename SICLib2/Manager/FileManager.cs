@@ -14,7 +14,7 @@ namespace SICLib2.Manager
         private StringBuilder Builder { get; set; } = new StringBuilder();
 
         private readonly int BuilderThreshold = 10000;
-        private readonly int FileThreshold = 200000;
+        private readonly int FileThreshold = 100000;
 
         private string FileDirectory { get; set; }
         private string FileName { get; set; }
@@ -34,11 +34,11 @@ namespace SICLib2.Manager
             FileExtension = fileExtension;
         }
 
-        public void ConcatString(string line)
+        public void ConcatNewLine(string line)
         {
             lock(lockStringBuilder)
             {
-                Builder.Append(line);
+                Builder.Append(line + "\n");
                 BuilderLines++;
                 if (BuilderLines > BuilderThreshold)
                     WriteToFile();
@@ -69,6 +69,7 @@ namespace SICLib2.Manager
         private void WriteLineFile(string path)
         {
             File.AppendAllLines(path, new[] { Builder.ToString() });
+            Builder.Clear();
         }
 
     }

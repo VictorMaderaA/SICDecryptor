@@ -16,6 +16,8 @@ namespace SICLib.Models
         private PartialByte _nextByte = null;
         private bool doneFullIteration = false;
 
+        public bool SkipLSB { get; set; } = false;
+
 
         public int hex1Integer
         {
@@ -124,7 +126,7 @@ namespace SICLib.Models
             {
                 iterateHex1();
             }
-            if (GetByte % 2 != 0)
+            if (SkipLSB && GetByte % 2 != 0)
                 iterate();
         }
 

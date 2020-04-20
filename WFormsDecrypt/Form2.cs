@@ -43,6 +43,10 @@ namespace WFormsDecrypt
             PartialBytesArray = FormDataManager.GetPartialBytesKeyString(formatedKey);
             if (PartialBytesArray == null || PartialBytesArray.Length <= 0)
                 return;
+
+            foreach (var item in PartialBytesArray)
+                item.SkipLSB = checkBox_SkipLsb.Checked;
+
             text_hexKey.Text = formatedKey;
             if (string.IsNullOrEmpty(text_hexKey.Text))
                 return;
@@ -213,6 +217,8 @@ namespace WFormsDecrypt
         private void checkBox_SkipLsb_CheckedChanged(object sender, EventArgs e)
         {
             if (PartialBytesArray == null) return;
+            foreach (var item in PartialBytesArray)
+                item.SkipLSB = checkBox_SkipLsb.Checked;
             ShowHexKeyaFromPartialBytes(PartialBytesArray);
         }
     }

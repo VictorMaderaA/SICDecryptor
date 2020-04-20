@@ -44,13 +44,13 @@ namespace SICLib2.Models
 
         private string SetBytesArray(string keyString)
         {
-            AbstractByte[] bytes = new AbstractByte[Lenght];
-            for (int ih = 0, ib = 0; ih < 48; ih += 2, ib++)
-            {
-                var hexVal1 = keyString[ih];
-                var hexVal2 = keyString[ih + 1];
-                bytes[ib] = new PartialByte();
-            }
+            //AbstractByte[] bytes = new AbstractByte[Lenght];
+            //for (int ih = 0, ib = 0; ih < 48; ih += 2, ib++)
+            //{
+            //    var hexVal1 = keyString[ih];
+            //    var hexVal2 = keyString[ih + 1];
+            //    bytes[ib] = new PartialByte();
+            //}
             return null;
         }
 

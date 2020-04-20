@@ -8,10 +8,9 @@ namespace SICLib2.Models
 {
     public class PartialByte : AbstractByte
     {
-        public PartialByte(bool hex1Set, bool hex2Set)
+        public PartialByte(int hex1, int hex2) : base(hex1, hex2)
         {
-            Hex1Set = hex1Set;
-            Hex2Set = hex2Set;
+
         }
 
         public bool Hex1Set { get; protected set; }

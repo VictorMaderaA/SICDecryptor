@@ -72,22 +72,23 @@ namespace SICLib.Manager
 
         public DateTime StartAtTime { get; private set; } = DateTime.Now;
         private byte[] cryptedBytes;
-        private PartialByte[] _partialBytes;       
+        private PartialByte[] _partialBytes;
 
 
-
+        private SICLib2.Manager.FileManager MyFileManager { get; set; }
         public DecryptorPlus(PartialByte[] partialBytes, string cryptedText, string outputFolder = null)
         {
             _partialBytes = partialBytes;
 
             cryptedBytes = Convert.FromBase64String(cryptedText);
+            MyFileManager = new SICLib2.Manager.FileManager(@"C:\temp", StartAtTime.ToString(@"d_HH_mm") + "_Results", "csv");
         }
 
         Task[] tasks = new Task[15];
         public async Task Decrypt()
         {
             string line = string.Empty;
-            line += $";KEY"; //Llave utilizada
+            line += $"; KEY"; //Llave utilizada
             line += $";O CHARS;P CHARS"; //Numero de Caracteres en String
             line += $";CHAR DIF"; // Diferencia Numercia de Caracteres entre original y procesada
             line += $";O ALPHA;P ALPHA"; //Numero de Caracteres Alphanumericos
@@ -98,9 +99,11 @@ namespace SICLib.Manager
             line += $";PROCESADA"; // String Procesada
             line += $";ORIGINAL CASI"; // String original sin saltos de linea ni ';'
 
-            FileManager.WriteLineFile(BitConverter.ToString(cryptedBytes), @"C:\temp\" + StartAtTime.ToString(@"d_HH_mm") + @"_resultAscii.csv");
-            FileManager.WriteLineFile("Decoded With Ascii", @"C:\temp\" + StartAtTime.ToString(@"d_HH_mm") + @"_resultAscii.csv");
-            FileManager.WriteLineFile(line, @"C:\temp\" + StartAtTime.ToString(@"d_HH_mm") + @"_resultAscii.csv");
+            //FileManager.WriteLineFile(BitConverter.ToString(cryptedBytes), @"C:\temp\" + StartAtTime.ToString(@"d_HH_mm") + @"_resultAscii.csv");
+            //FileManager.WriteLineFile("Decoded With Ascii", @"C:\temp\" + StartAtTime.ToString(@"d_HH_mm") + @"_resultAscii.csv");
+            //FileManager.WriteLineFile(line, @"C:\temp\" + StartAtTime.ToString(@"d_HH_mm") + @"_resultAscii.csv");
+            MyFileManager.ConcatNewLine(BitConverter.ToString(cryptedBytes));
+            MyFileManager.ConcatNewLine(line);
 
 
             var keyQueueTask = Task.Run(() => KeepKeyQueueData());
@@ -121,6 +124,7 @@ namespace SICLib.Manager
             }
 
             keyQueueTask.Wait();
+            MyFileManager.WriteBuilderToFile();
         }
 
         public int ProccessNextKeyTask(int key)
@@ -268,7 +272,8 @@ namespace SICLib.Manager
             line += $";{sProcessed}"; // String Procesada
             line += $";{sDecyptPrintable}"; // String original sin saltos de linea ni ';'
 
-            FileManager.WriteLineFile(line, filePath);
+            MyFileManager.ConcatNewLine(line);
+            //FileManager.WriteLineFile(line, filePath);
         }
     }
 }
