@@ -81,12 +81,7 @@ namespace SICLib.Manager
             _partialBytes = partialBytes;
 
             cryptedBytes = Convert.FromBase64String(cryptedText);
-            MyFileManager = new SICLib2.Manager.FileManager(@"C:\temp", StartAtTime.ToString(@"d_HH_mm") + "_Results", "csv");
-        }
 
-        Task[] tasks = new Task[15];
-        public async Task Decrypt()
-        {
             string line = string.Empty;
             line += $"; KEY"; //Llave utilizada
             line += $";O CHARS;P CHARS"; //Numero de Caracteres en String
@@ -99,13 +94,13 @@ namespace SICLib.Manager
             line += $";PROCESADA"; // String Procesada
             line += $";ORIGINAL CASI"; // String original sin saltos de linea ni ';'
 
-            //FileManager.WriteLineFile(BitConverter.ToString(cryptedBytes), @"C:\temp\" + StartAtTime.ToString(@"d_HH_mm") + @"_resultAscii.csv");
-            //FileManager.WriteLineFile("Decoded With Ascii", @"C:\temp\" + StartAtTime.ToString(@"d_HH_mm") + @"_resultAscii.csv");
-            //FileManager.WriteLineFile(line, @"C:\temp\" + StartAtTime.ToString(@"d_HH_mm") + @"_resultAscii.csv");
+            MyFileManager = new SICLib2.Manager.FileManager(@"C:\temp", StartAtTime.ToString(@"d_HH_mm") + "_Results", "csv", line);
             MyFileManager.ConcatNewLine(BitConverter.ToString(cryptedBytes));
-            MyFileManager.ConcatNewLine(line);
+        }
 
-
+        Task[] tasks = new Task[15];
+        public async Task Decrypt()
+        {
             var keyQueueTask = Task.Run(() => KeepKeyQueueData());
             while (
                 keyQueueTask.Status != TaskStatus.RanToCompletion ||
@@ -199,8 +194,6 @@ namespace SICLib.Manager
         public void ProccessKey()
         {
             var keyBytes = GetNextPendingKey();
-            bool exception = false;
-
             DecryptedObject decryptedObject;
             try
             {
@@ -208,15 +201,11 @@ namespace SICLib.Manager
             }
             catch (Exception)
             {
-                exception = true;
                 CountNewError();
                 return;
             }
-            if(!exception)
-            {
-                ProcessAscii(decryptedObject);
-                CountNewSuccess();
-            }
+            ProcessAscii(decryptedObject);
+            CountNewSuccess();
 
         }
 
@@ -226,6 +215,17 @@ namespace SICLib.Manager
 
             
             string sDecryptOrig = decryptedObject.GetDecodedString(ASCIIEncoding.ASCII);
+            string sProcessed = new StringBuilder(sDecryptOrig).RemoveNoneAlphanumericChars().GetString();
+
+
+            int cDChars = new StringBuilder(sDecryptOrig).CountChars(); //Numero de Caracteres en String Decriptada
+            int cPChars = new StringBuilder(sProcessed).CountChars(); //Numero de Caracteres en String Procesada
+            int cCharDif = cDChars - cPChars; // Diferencia Numercia de Caracteres entre original y procesada
+
+            if(cCharDif > 380)
+            {
+                return;
+            }
 
             bool foundClave = true;
             if (!Regex.Match(sDecryptOrig, "[Cc][Ll][Aa][VvBb][Ee]", RegexOptions.IgnoreCase).Success)
@@ -242,10 +242,6 @@ namespace SICLib.Manager
             int cDIsHex = new StringBuilder(sDecryptOrig).CountHexadecimalChars(); //Numero de Caracteres Hexadecimales
             int cDNoHex = new StringBuilder(sDecryptOrig).CountNoHexadecimalChars(); //Numero de Caracteres No Hexadecimales
 
-            int cDChars = new StringBuilder(sDecryptOrig).CountChars(); //Numero de Caracteres en String Decriptada
-
-
-            string sProcessed = new StringBuilder(sDecryptOrig).RemoveNoneAlphanumericChars().GetString();
 
             int cPIsAlpha = new StringBuilder(sProcessed).CountAlphanumericChars(); //Numero de Caracteres Alphanumericos
             int cPNoAlpha = new StringBuilder(sProcessed).CountNoAlphanumericChars(); //Numero de Caracteres No Alphanumericos
@@ -253,11 +249,9 @@ namespace SICLib.Manager
             int cPIsHex = new StringBuilder(sProcessed).CountHexadecimalChars(); //Numero de Caracteres Hexadecimales
             int cPNoHex = new StringBuilder(sProcessed).CountNoHexadecimalChars(); //Numero de Caracteres No Hexadecimales
 
-            int cPChars = new StringBuilder(sProcessed).CountChars(); //Numero de Caracteres en String Procesada
 
 
 
-            int cCharDif = cDChars - cPChars; // Diferencia Numercia de Caracteres entre original y procesada
 
 
             string line = $"{foundClave}";

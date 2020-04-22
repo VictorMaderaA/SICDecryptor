@@ -24,14 +24,18 @@ namespace SICLib2.Manager
         private int BuilderLines { get; set; } = 0;
         private int FileLines { get; set; } = 0;
 
+        private string FileHeader { get; set; }
+
         readonly object lockStringBuilder = new object();
 
 
-        public FileManager(string directoryPath, string fileName, string fileExtension)
+        public FileManager(string directoryPath, string fileName, string fileExtension, string fileHeader)
         {
             FileDirectory = directoryPath;
             FileName = fileName;
             FileExtension = fileExtension;
+            FileHeader = fileHeader;
+            ConcatNewLine(FileHeader);
         }
 
         public void ConcatNewLine(string line)
@@ -55,15 +59,16 @@ namespace SICLib2.Manager
 
         private void WriteToFile()
         {
+            var filePath = $"{FileDirectory}\\{FileName}_{FileNumber.ToString("D2")}.{FileExtension}";
+            WriteLineFile(filePath);
+            FileLines += BuilderLines;
+            BuilderLines = 0;
             if (FileLines > FileThreshold)
             {
                 FileLines = 0;
                 FileNumber++;
+                ConcatNewLine(FileHeader);
             }
-            var filePath = $"{FileDirectory}\\{FileName}_{FileNumber}.{FileExtension}";
-            WriteLineFile(filePath);
-            FileLines += BuilderLines;
-            BuilderLines = 0;
         }
 
         private void WriteLineFile(string path)

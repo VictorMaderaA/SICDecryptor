@@ -95,6 +95,7 @@ namespace WFormsDecrypt
                 return;
             if (string.IsNullOrWhiteSpace(text_mensajeCifrado.Text) || string.IsNullOrEmpty(text_mensajeCifrado.Text))
                 return;
+            OnKeyTextChanged();
 
             BruteDecrypt();
 
@@ -123,6 +124,7 @@ namespace WFormsDecrypt
         private void BruteFinished()
         {
             ProcessTimer.Stop();
+            ProcessTick(this, null);
             lbl_Keys.Text = "0";
             lbl_tasks.Text = "0";
             if(decryptor != null)
@@ -184,7 +186,7 @@ namespace WFormsDecrypt
                 text_hexKey.AppendText(b.HexPartialString + "-");
                 combinations *= b.Combinations;
             }
-            PosibleKeys = (checkBox_SkipLsb.Checked)? combinations / 2 : combinations;
+            PosibleKeys = (checkBox_SkipLsb.Checked)? combinations / 8 : combinations;
             lbl_clavesPosibles.Text = PosibleKeys.ToString();
         }
 
