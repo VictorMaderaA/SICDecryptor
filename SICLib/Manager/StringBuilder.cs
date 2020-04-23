@@ -127,6 +127,15 @@ namespace SICLib.Manager
             return x;
         }
 
+        public int CountChar(string chr)
+        {
+            int x = 0;
+            foreach (var c in _line)
+                if (Regex.IsMatch(c.ToString(), chr, RegexOptions.IgnoreCase))
+                    x++;
+            return x;
+        }
+
         public string GetString()
         {
             return _line;

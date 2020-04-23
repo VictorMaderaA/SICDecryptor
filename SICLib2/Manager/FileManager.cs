@@ -13,7 +13,7 @@ namespace SICLib2.Manager
 
         private StringBuilder Builder { get; set; } = new StringBuilder();
 
-        private readonly int BuilderThreshold = 10000;
+        private readonly int BuilderThreshold = 1000;
         private readonly int FileThreshold = 100000;
 
         private string FileDirectory { get; set; }

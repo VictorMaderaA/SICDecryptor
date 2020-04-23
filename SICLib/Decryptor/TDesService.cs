@@ -78,22 +78,60 @@ namespace SICLib.Decryptor
 
         public DecryptedObject Decrypt(byte[] key, byte[] cryptedBytes)
         {
-            byte[] key1 = new byte[8], key2 = new byte[8], key3 = new byte[8];
-            Array.Copy(key, 0, key1, 0, 8);
-            Array.Copy(key, 8, key2, 0, 8);
-            Array.Copy(key, 16, key3, 0, 8);
-            var response = DesDecrypt(DesEncrypt(DesDecrypt(cryptedBytes, key3), key2), key1);
+            //var response = Decryptor2301(cryptedBytes, key);
+            //return new DecryptedObject(response, key);
+
+            ////
+
+            var response = Decryptor2302(cryptedBytes, key);
             return new DecryptedObject(response, key);
         }
 
+
+
+
+
+        private byte[] Decryptor2301(byte[] Data, byte[] Key)
+        {
+            // Create a new MemoryStream using the passed 
+            // array of encrypted data.
+            MemoryStream msDecrypt = new MemoryStream(Data);
+
+            // Create a new TripleDES object.
+            TripleDES tripleDESalg = TripleDES.Create();
+            tripleDESalg.Key = Key;
+
+            // Create a CryptoStream using the MemoryStream 
+            // and the passed key and initialization vector (IV).
+            CryptoStream csDecrypt = new CryptoStream(msDecrypt,
+                tripleDESalg.CreateDecryptor(),CryptoStreamMode.Read);
+
+            // Create buffer to hold the decrypted data.
+            byte[] fromEncrypt = new byte[Data.Length];
+
+            // Read the decrypted data out of the crypto stream
+            // and place it into the temporary buffer.
+            csDecrypt.Read(fromEncrypt, 0, fromEncrypt.Length);
+
+            //Convert the buffer into a string and return it.
+            return fromEncrypt;
+        }
+
+        private byte[] Decryptor2302(byte[] Data, byte[] Key)
+        {
+            byte[] key1 = new byte[8], key2 = new byte[8], key3 = new byte[8];
+            Array.Copy(Key, 0, key1, 0, 8);
+            Array.Copy(Key, 8, key2, 0, 8);
+            Array.Copy(Key, 16, key3, 0, 8);
+            return DesDecrypt(DesEncrypt(DesDecrypt(Data, key3), key2), key1);
+            
+        }
+
+
         private DES CreateDes(byte[] key)
         {
-            //MD5 md5 = new MD5CryptoServiceProvider();
             DES des = new DESCryptoServiceProvider();
-            //var desKey = md5.ComputeHash(key);
             des.Key = key;
-            des.Padding = PaddingMode.None;
-            des.Mode = CipherMode.ECB;
             return des;
         }
 
@@ -101,18 +139,14 @@ namespace SICLib.Decryptor
         {
             var symAlg = CreateDes(key);
             ICryptoTransform xfrm = symAlg.CreateEncryptor();
-            byte[] outBlock = xfrm.TransformFinalBlock(inBlock, 0, inBlock.Length);
-
-            return outBlock;
+            return xfrm.TransformFinalBlock(inBlock, 0, inBlock.Length);
         }
 
         public byte[] DesDecrypt(byte[] inBytes, byte[] key)
         {
             var symAlg = CreateDes(key);
             ICryptoTransform xfrm = symAlg.CreateDecryptor();
-            byte[] outBlock = xfrm.TransformFinalBlock(inBytes, 0, inBytes.Length);
-
-            return outBlock;
+            return xfrm.TransformFinalBlock(inBytes, 0, inBytes.Length);
         }
 
 

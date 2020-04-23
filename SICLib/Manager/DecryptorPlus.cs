@@ -76,6 +76,8 @@ namespace SICLib.Manager
 
 
         private SICLib2.Manager.FileManager MyFileManager { get; set; }
+        private SICLib2.Manager.FileManager MyFileManagerSuccesses { get; set; }
+        private SICLib2.Manager.FileManager MyFileManagerBad { get; set; }
         public DecryptorPlus(PartialByte[] partialBytes, string cryptedText, string outputFolder = null)
         {
             _partialBytes = partialBytes;
@@ -96,6 +98,12 @@ namespace SICLib.Manager
 
             MyFileManager = new SICLib2.Manager.FileManager(@"C:\temp", StartAtTime.ToString(@"d_HH_mm") + "_Results", "csv", line);
             MyFileManager.ConcatNewLine(BitConverter.ToString(cryptedBytes));
+
+            MyFileManagerSuccesses = new SICLib2.Manager.FileManager(@"C:\temp", StartAtTime.ToString(@"d_HH_mm") + "_ResultsSuccesses", "csv", line);
+            MyFileManagerSuccesses.ConcatNewLine(BitConverter.ToString(cryptedBytes));
+
+            MyFileManagerBad = new SICLib2.Manager.FileManager(@"C:\temp", StartAtTime.ToString(@"d_HH_mm") + "_ResultsBad", "csv", line);
+            MyFileManagerBad.ConcatNewLine(BitConverter.ToString(cryptedBytes));
         }
 
         Task[] tasks = new Task[15];
@@ -120,6 +128,8 @@ namespace SICLib.Manager
 
             keyQueueTask.Wait();
             MyFileManager.WriteBuilderToFile();
+            MyFileManagerSuccesses.WriteBuilderToFile();
+            MyFileManagerBad.WriteBuilderToFile();
         }
 
         public int ProccessNextKeyTask(int key)
@@ -209,12 +219,21 @@ namespace SICLib.Manager
 
         }
 
+
+        string regex = "CLA[VB]E|ALGOR|CRIPTO|PISTA|SIMETRI|SNOW|RABBIT|E0|RC4";
         private void ProcessAscii(DecryptedObject decryptedObject)
         {
-            var filePath = @"C:\temp\" + StartAtTime.ToString(@"d_HH_mm") + @"_resultAscii.csv";
-
+            bool foundSomething = false;
             
-            string sDecryptOrig = decryptedObject.GetDecodedString(ASCIIEncoding.ASCII);
+            string sDecryptOrig = decryptedObject.GetDecodedString(UTF8Encoding.UTF8);
+
+            var sDecyptPrintable = new StringBuilder(sDecryptOrig).RemoveAsciiControllChars().RemoveNewLines().RemoveChar(';').GetString();
+            if (new StringBuilder(sDecryptOrig).CountChar("[½|¿]") > 100)
+            {
+                string ln = $";{decryptedObject.GetBytesKeyHex()};;;;;;;;;;;;;{sDecyptPrintable}";
+                MyFileManagerBad.ConcatNewLine(ln);
+                return;
+            }
             string sProcessed = new StringBuilder(sDecryptOrig).RemoveNoneAlphanumericChars().GetString();
 
 
@@ -222,19 +241,14 @@ namespace SICLib.Manager
             int cPChars = new StringBuilder(sProcessed).CountChars(); //Numero de Caracteres en String Procesada
             int cCharDif = cDChars - cPChars; // Diferencia Numercia de Caracteres entre original y procesada
 
-            if(cCharDif > 380)
-            {
-                return;
-            }
+            
 
-            bool foundClave = true;
-            if (!Regex.Match(sDecryptOrig, "[Cc][Ll][Aa][VvBb][Ee]", RegexOptions.IgnoreCase).Success)
-            {
-                foundClave = false;
-            }
+            if (Regex.Match(sDecryptOrig, regex, RegexOptions.IgnoreCase).Success)
+                foundSomething = true;
 
-            var sDecyptPrintable = new StringBuilder(sDecryptOrig).RemoveNewLines()
-                .RemoveChar(';').RemoveChar('\n').RemoveChar('?').RemoveAsciiControllChars().GetString();
+
+            //var sDecyptPrintable = new StringBuilder(sDecryptOrig).RemoveNewLines()
+            //    .RemoveChar(';').RemoveChar('\n').RemoveChar('?').RemoveAsciiControllChars().GetString();
 
             int cDIsAlpha = new StringBuilder(sDecryptOrig).CountAlphanumericChars(); //Numero de Caracteres Alphanumericos
             int cDNoAlpha = new StringBuilder(sDecryptOrig).CountNoAlphanumericChars(); //Numero de Caracteres No Alphanumericos
@@ -243,31 +257,35 @@ namespace SICLib.Manager
             int cDNoHex = new StringBuilder(sDecryptOrig).CountNoHexadecimalChars(); //Numero de Caracteres No Hexadecimales
 
 
-            int cPIsAlpha = new StringBuilder(sProcessed).CountAlphanumericChars(); //Numero de Caracteres Alphanumericos
+            //int cPIsAlpha = new StringBuilder(sProcessed).CountAlphanumericChars(); //Numero de Caracteres Alphanumericos
             int cPNoAlpha = new StringBuilder(sProcessed).CountNoAlphanumericChars(); //Numero de Caracteres No Alphanumericos
 
-            int cPIsHex = new StringBuilder(sProcessed).CountHexadecimalChars(); //Numero de Caracteres Hexadecimales
+            //int cPIsHex = new StringBuilder(sProcessed).CountHexadecimalChars(); //Numero de Caracteres Hexadecimales
             int cPNoHex = new StringBuilder(sProcessed).CountNoHexadecimalChars(); //Numero de Caracteres No Hexadecimales
 
 
-
-
-
-
-            string line = $"{foundClave}";
+            string line = $"{foundSomething}";
             line += $";{decryptedObject.GetBytesKeyHex()}"; //Llave utilizada
             line += $";{cDChars};{cPChars}"; //Numero de Caracteres en la String
             line += $";{cCharDif}"; // Diferencia Numercia de Caracteres entre original y procesada
-            line += $";{cDIsAlpha};{cPIsAlpha}"; //Numero de Caracteres Alphanumericos original y procesada
+
+            //cPIsAlpha
+            line += $";{cDIsAlpha};"; //Numero de Caracteres Alphanumericos original y procesada
+
             line += $";{cDNoAlpha};{cPNoAlpha}"; //Numero de Caracteres No Alphanumericos original y procesada
-            line += $";{cDIsHex};{cPIsHex}"; //Numero de Caracteres Hexadecimales original y procesada
+
+            //cPIsHex
+            line += $";{cDIsHex};"; //Numero de Caracteres Hexadecimales original y procesada
+
             line += $";{cDNoHex};{cPNoHex}"; //Numero de Caracteres No Hexadecimales original y procesada
 
             line += $";{sProcessed}"; // String Procesada
             line += $";{sDecyptPrintable}"; // String original sin saltos de linea ni ';'
 
+            if (foundSomething == true)
+                MyFileManagerSuccesses.ConcatNewLine(line);
+
             MyFileManager.ConcatNewLine(line);
-            //FileManager.WriteLineFile(line, filePath);
         }
     }
 }
