@@ -81,7 +81,8 @@ namespace SICLib.Decryptor
             //var response = Decryptor2301(cryptedBytes, key);
             //return new DecryptedObject(response, key);
 
-            ////
+            //
+
 
             var response = Decryptor2302(cryptedBytes, key);
             return new DecryptedObject(response, key);
@@ -124,7 +125,6 @@ namespace SICLib.Decryptor
             Array.Copy(Key, 8, key2, 0, 8);
             Array.Copy(Key, 16, key3, 0, 8);
             return DesDecrypt(DesEncrypt(DesDecrypt(Data, key3), key2), key1);
-            
         }
 
 
