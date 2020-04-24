@@ -9,71 +9,10 @@ namespace SICLib.Decryptor
     public class TDesService
     {
 
-        private SymmetricAlgorithm CryptoService;
-        private CipherMode CipherMode;
-        private PaddingMode PaddingMode;
-
-        public TDesService(CipherMode cipher = CipherMode.ECB, PaddingMode padding = PaddingMode.None)
+        public TDesService()
         {
-            CryptoService = new TripleDESCryptoServiceProvider();
-            CipherMode = cipher;
-            PaddingMode = padding;
+
         }
-
-        //public DecryptedObject Decrypt(byte[] key, byte[] cryptedBytes)
-        //{
-        //    if (key.Length != 24) throw new System.Exception("Wrong Size");
-        //    CryptoService.Mode = CipherMode;
-        //    CryptoService.Padding = PaddingMode;
-        //    CryptoService.KeySize = 192;
-        //    CryptoService.BlockSize = 64;
-        //    var MyCrytpoTransform = CryptoService.CreateDecryptor(key, key);
-        //    byte[] MyresultArray = MyCrytpoTransform.TransformFinalBlock(cryptedBytes, 0, cryptedBytes.Length);
-        //    CryptoService.Clear();
-        //    return new DecryptedObject(MyresultArray, key);
-        //}
-
-        //public DecryptedObject Decrypt(byte[] key, byte[] cryptedBytes)
-        //{
-        //    var CryptoService = new TripleDESCryptoServiceProvider();
-
-        //    CryptoService.Key = key;
-        //    CryptoService.Mode = CipherMode;
-        //    CryptoService.Padding = PaddingMode;
-
-        //    var MyCrytpoTransform = CryptoService.CreateDecryptor();
-
-        //    byte[] MyresultArray = MyCrytpoTransform.TransformFinalBlock(cryptedBytes, 0, cryptedBytes.Length);
-
-        //    CryptoService.Clear();
-
-        //    return new DecryptedObject(MyresultArray, key);
-        //}
-
-        ////public DecryptedObject Decrypt(byte[] key, byte[] cryptedBytes)
-        ////{
-        ////    var response = TripleDesDecrypt(cryptedBytes, key);
-        ////    return new DecryptedObject(response, key);
-        ////}
-
-        ////private byte[] TripleDesDecrypt(byte[] cipherBytes, byte[] key)
-        ////{
-        ////    var des = CreateTDes(key);
-        ////    var ct = des.CreateDecryptor();
-        ////    var output = ct.TransformFinalBlock(cipherBytes, 0, cipherBytes.Length);
-        ////    return output;
-        ////}
-
-        ////private TripleDES CreateTDes(byte[] key)
-        ////{
-        ////    MD5 md5 = new MD5CryptoServiceProvider();
-        ////    TripleDES des = new TripleDESCryptoServiceProvider();
-        ////    var desKey = md5.ComputeHash(key);
-        ////    des.Key = desKey;
-        ////    des.Padding = PaddingMode.None;
-        ////    des.Mode = CipherMode.ECB;
-        ////    return des;
-        ////}
 
 
         public DecryptedObject Decrypt(byte[] key, byte[] cryptedBytes)
@@ -83,14 +22,11 @@ namespace SICLib.Decryptor
 
             //
 
-
             var response = Decryptor2302(cryptedBytes, key);
             return new DecryptedObject(response, key);
         }
 
-
-
-
+        //==================================================================================
 
         private byte[] Decryptor2301(byte[] Data, byte[] Key)
         {
@@ -117,6 +53,8 @@ namespace SICLib.Decryptor
             //Convert the buffer into a string and return it.
             return fromEncrypt;
         }
+
+        //==================================================================================
 
         private byte[] Decryptor2302(byte[] Data, byte[] Key)
         {
@@ -148,6 +86,8 @@ namespace SICLib.Decryptor
             ICryptoTransform xfrm = symAlg.CreateDecryptor();
             return xfrm.TransformFinalBlock(inBytes, 0, inBytes.Length);
         }
+
+        //==================================================================================
 
 
     }

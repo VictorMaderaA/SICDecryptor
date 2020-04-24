@@ -10,8 +10,8 @@ namespace ConsoleTestApp
     {
         static void Main(string[] args)
         {
-
-            var cls = new DecryptorTest1();
+            Console.WriteLine(DateTime.Now.ToString(@"d_HH_mm"));
+            var cls = new Test2303();
             cls.test();
             Console.WriteLine("Terminado");
             Console.ReadLine();

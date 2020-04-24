@@ -78,13 +78,12 @@ namespace WFormsDecrypt
             {
                 var keyBytes = PartialByte.GetBytesFromPartialBytes(PartialBytesArray);
                 var textoCifrado = Convert.FromBase64String(text_mensajeCifrado.Text);
-                var decryptedObj = new TDesService()
-                    .Decrypt(keyBytes, textoCifrado);
-                text = decryptedObj.GetDecodedString(Encoding.ASCII);
+                var decryptedObj = new TDesService().Decrypt(keyBytes, textoCifrado);
+                text = decryptedObj.GetDecodedString(UTF8Encoding.UTF8);
             }
             catch (Exception ex)
             {
-                text = $"Error {ex.Message}";
+                text = $"{DateTime.Now.TimeOfDay}Error {ex.Message}";
             }
             text_mensaje.Text = text;
         }
