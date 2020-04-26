@@ -1,12 +1,8 @@
-﻿using SICLib2.Manager;
+﻿using SICLib.Manager;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace ConsoleTestApp
 {

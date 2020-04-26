@@ -75,10 +75,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SICLib2\SICLib2.csproj">
-      <Project>{8CFC9B8F-A7F0-46BE-836E-F0E3E40A9559}</Project>
-      <Name>SICLib2</Name>
-    </ProjectReference>
     <ProjectReference Include="..\SICLib\SICLib.csproj">
       <Project>{b9369046-856d-4918-9daa-593cf820ef23}</Project>
       <Name>SICLib</Name>

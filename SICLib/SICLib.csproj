@@ -62,11 +62,5 @@
     <None Include="resources\DOCUMENTO1.dat" />
     <None Include="resources\DOCUMENTO2.dat" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\SICLib2\SICLib2.csproj">
-      <Project>{8cfc9b8f-a7f0-46be-836e-f0e3e40a9559}</Project>
-      <Name>SICLib2</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

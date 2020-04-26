@@ -59,10 +59,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SICLib2\SICLib2.csproj">
-      <Project>{8cfc9b8f-a7f0-46be-836e-f0e3e40a9559}</Project>
-      <Name>SICLib2</Name>
-    </ProjectReference>
     <ProjectReference Include="..\SICLib\SICLib.csproj">
       <Project>{b9369046-856d-4918-9daa-593cf820ef23}</Project>
       <Name>SICLib</Name>
