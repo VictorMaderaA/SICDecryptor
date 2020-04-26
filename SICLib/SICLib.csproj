@@ -52,10 +52,7 @@
     <Compile Include="Manager\FileManager.cs" />
     <Compile Include="Manager\FormDataManager.cs" />
     <Compile Include="Manager\StringBuilder.cs" />
-    <Compile Include="Models\CustomBytes.cs" />
-    <Compile Include="Models\Data.cs" />
     <Compile Include="Models\DecryptedObject.cs" />
-    <Compile Include="Models\Key.cs" />
     <Compile Include="Models\PartialByte.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

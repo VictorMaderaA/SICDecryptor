@@ -35,7 +35,7 @@ namespace ConsoleTestApp
 
                         var decryptedText = DecryptTDES1(cryptedTextBytes, partialKeyBytes);
                         var processedText = new SICLib.Manager.StringBuilder(decryptedText).RemoveNoneAlphanumericChars().GetString();
-                        FileManager.WriteLineFile($"<Start-{b1}-{b2}-{b3}>{ processedText }<End>", @"C:\temp\" + date + @"_resultTest_" + fileNumber);
+                        //FileManager.WriteLineFile($"<Start-{b1}-{b2}-{b3}>{ processedText }<End>", @"C:\temp\" + date + @"_resultTest_" + fileNumber);
 
                         if (Regex.Match(processedText, "[Cc][Ll][Aa][VvBb][Ee]", RegexOptions.IgnoreCase).Success)
                         {
@@ -43,7 +43,7 @@ namespace ConsoleTestApp
                             Console.WriteLine($"{b1}-{b2}-{b3}");
                             Console.WriteLine($"{processedText}");
                             Console.WriteLine($"{decryptedText}\n*/*/*/*/*/*/*/*/*/*/*\n");
-                            FileManager.WriteLineFile($"<FOUND>{b1}-{b2}-{b3}<>{decryptedText}<FOUND>", @"C:\temp\" + date + @"_resultTest_" + fileNumber);
+                            //FileManager.WriteLineFile($"<FOUND>{b1}-{b2}-{b3}<>{decryptedText}<FOUND>", @"C:\temp\" + date + @"_resultTest_" + fileNumber);
                         }
                         if (linesWriten++ > 1048576)
                         {

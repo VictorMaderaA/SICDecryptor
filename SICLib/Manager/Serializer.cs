@@ -4,9 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SICLib.Models
+namespace SICLib.Manager
 {
-    public class CustomBytes
+    public class Serializer
     {
+
+
     }
 }

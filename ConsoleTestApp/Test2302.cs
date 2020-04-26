@@ -89,7 +89,7 @@ namespace ConsoleTestApp
                 csDecrypt.Read(fromEncrypt, 0, fromEncrypt.Length);
 
                 //Convert the buffer into a string and return it.
-                return new ASCIIEncoding().GetString(fromEncrypt);
+                return new UTF8Encoding().GetString(fromEncrypt);
             }
             catch (CryptographicException e)
             {

@@ -136,6 +136,19 @@ namespace SICLib.Manager
             return x;
         }
 
+        public bool CountChar(string chr, int max)
+        {
+            int x = 0;
+            foreach (var c in _line)
+                if (Regex.IsMatch(c.ToString(), chr, RegexOptions.IgnoreCase))
+                {
+                    x++;
+                    if (x > max)
+                        return true;
+                }
+            return false;
+        }
+
         public string GetString()
         {
             return _line;

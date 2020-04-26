@@ -17,13 +17,13 @@ namespace SICLib.Decryptor
 
         public DecryptedObject Decrypt(byte[] key, byte[] cryptedBytes)
         {
-            //var response = Decryptor2301(cryptedBytes, key);
-            //return new DecryptedObject(response, key);
+            var response = Decryptor2301(cryptedBytes, key);
+            return new DecryptedObject(response, key);
 
             //
 
-            var response = Decryptor2302(cryptedBytes, key);
-            return new DecryptedObject(response, key);
+            //var response = Decryptor2302(cryptedBytes, key);
+            //return new DecryptedObject(response, key);
         }
 
         //==================================================================================
@@ -37,6 +37,7 @@ namespace SICLib.Decryptor
             // Create a new TripleDES object.
             TripleDES tripleDESalg = TripleDES.Create();
             tripleDESalg.Key = Key;
+            tripleDESalg.Padding = PaddingMode.PKCS7;
 
             // Create a CryptoStream using the MemoryStream 
             // and the passed key and initialization vector (IV).

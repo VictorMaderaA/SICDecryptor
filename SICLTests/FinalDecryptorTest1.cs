@@ -38,13 +38,13 @@ namespace SICLTests
 
                         var decryptedText = DecryptTDES1(cryptedTextBytes, partialKeyBytes);
                         var processedText = new SICLib.Manager.StringBuilder(decryptedText).RemoveNoneAlphanumericChars().GetString();
-                        FileManager.WriteLineFile($"<Start{b1}-{b2}-{b3}>{ processedText }<End>", @"C:\temp\" + date + @"_resultTest");
+                        //FileManager.WriteLineFile($"<Start{b1}-{b2}-{b3}>{ processedText }<End>", @"C:\temp\" + date + @"_resultTest");
 
                         if (Regex.Match(processedText, "[Cc][Ll][Aa][VvBb][Ee]", RegexOptions.IgnoreCase).Success)
                         {
                             Console.WriteLine("Encontrado");
                             Console.WriteLine($"{b1}-{b2}-{b3}");
-                            FileManager.WriteLineFile($"<FOUND>{b1}-{b2}-{b3}<>{decryptedText}<FOUND>", @"C:\temp\" + date + @"_resultTest_" + fileNumber);
+                            //FileManager.WriteLineFile($"<FOUND>{b1}-{b2}-{b3}<>{decryptedText}<FOUND>", @"C:\temp\" + date + @"_resultTest_" + fileNumber);
                         }
                         if(linesWriten++ > 250000)
                         {
