@@ -80,6 +80,12 @@ namespace SICLib.Manager
         private FileManager MyFileManagerBad { get; set; }
         public DecryptorPlus(PartialByte[] partialBytes, string cryptedText, string outputFolder = null)
         {
+            string folder = @"C:\temp";
+            if(outputFolder != null)
+            {
+                folder = outputFolder;
+            }
+
             _partialBytes = partialBytes;
 
             cryptedBytes = Convert.FromBase64String(cryptedText);
@@ -96,13 +102,13 @@ namespace SICLib.Manager
             line += $";PROCESADA"; // String Procesada
             line += $";ORIGINAL CASI"; // String original sin saltos de linea ni ';'
 
-            MyFileManager = new FileManager(@"C:\temp", StartAtTime.ToString(@"d_HH_mm") + "_Results", "csv", line);
+            MyFileManager = new FileManager(folder, StartAtTime.ToString(@"d_HH_mm") + "_Results", "csv", line);
             MyFileManager.ConcatNewLine(BitConverter.ToString(cryptedBytes));
 
-            MyFileManagerSuccesses = new FileManager(@"C:\temp", StartAtTime.ToString(@"d_HH_mm") + "_ResultsSuccesses", "csv", line);
+            MyFileManagerSuccesses = new FileManager(folder, StartAtTime.ToString(@"d_HH_mm") + "_ResultsSuccesses", "csv", line);
             MyFileManagerSuccesses.ConcatNewLine(BitConverter.ToString(cryptedBytes));
 
-            MyFileManagerBad = new FileManager(@"C:\temp", StartAtTime.ToString(@"d_HH_mm") + "_ResultsBad", "csv", line);
+            MyFileManagerBad = new FileManager(folder, StartAtTime.ToString(@"d_HH_mm") + "_ResultsBad", "csv", line);
             MyFileManagerBad.ConcatNewLine(BitConverter.ToString(cryptedBytes));
         }
 

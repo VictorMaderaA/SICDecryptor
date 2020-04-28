@@ -67,6 +67,9 @@
             this.label7 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.checkBox_SkipLsb = new System.Windows.Forms.CheckBox();
+            this.button1 = new System.Windows.Forms.Button();
+            this.label17 = new System.Windows.Forms.Label();
+            this.lbl_directorio = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -449,11 +452,42 @@
             this.checkBox_SkipLsb.UseVisualStyleBackColor = true;
             this.checkBox_SkipLsb.CheckedChanged += new System.EventHandler(this.checkBox_SkipLsb_CheckedChanged);
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(206, 413);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(185, 23);
+            this.button1.TabIndex = 17;
+            this.button1.Text = "CarpetaSalida";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(22, 443);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(55, 13);
+            this.label17.TabIndex = 22;
+            this.label17.Text = "Directorio:";
+            // 
+            // lbl_directorio
+            // 
+            this.lbl_directorio.AutoSize = true;
+            this.lbl_directorio.Location = new System.Drawing.Point(83, 443);
+            this.lbl_directorio.Name = "lbl_directorio";
+            this.lbl_directorio.Size = new System.Drawing.Size(45, 13);
+            this.lbl_directorio.TabIndex = 23;
+            this.lbl_directorio.Text = "ninguno";
+            // 
             // form_decryptor1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1184, 495);
+            this.Controls.Add(this.lbl_directorio);
+            this.Controls.Add(this.label17);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.checkBox_SkipLsb);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.progressBar);
@@ -523,5 +557,8 @@
         private System.Windows.Forms.Label lbl_clavesPosibles;
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.CheckBox checkBox_SkipLsb;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.Label lbl_directorio;
     }
 }

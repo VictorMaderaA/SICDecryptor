@@ -51,6 +51,9 @@ namespace WFormsDecrypt
             if (string.IsNullOrEmpty(text_hexKey.Text))
                 return;
             ShowHexKeyaFromPartialBytes(PartialBytesArray);
+
+            if (!direcotorioSeleccionado)
+                return;
             btn_DecryptWForce.Enabled = true;
             btn_DecryptWKey.Enabled = true;
         }
@@ -102,7 +105,7 @@ namespace WFormsDecrypt
 
         private async void BruteDecrypt()
         {
-            decryptor = new DecryptorPlus(PartialBytesArray, text_mensajeCifrado.Text);
+            decryptor = new DecryptorPlus(PartialBytesArray, text_mensajeCifrado.Text, lbl_directorio.Text);
             BruteDecryptorStarted();
             await Task.Run(() => decryptor.Decrypt());
             BruteFinished();
@@ -221,6 +224,22 @@ namespace WFormsDecrypt
             foreach (var item in PartialBytesArray)
                 item.SkipLSB = checkBox_SkipLsb.Checked;
             ShowHexKeyaFromPartialBytes(PartialBytesArray);
+        }
+
+        private bool direcotorioSeleccionado = false;
+        private void button1_Click(object sender, EventArgs e)
+        {
+            FolderBrowserDialog folderDlg = new FolderBrowserDialog();
+            folderDlg.ShowNewFolderButton = true;
+            // Show the FolderBrowserDialog.  
+            DialogResult result = folderDlg.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                lbl_directorio.Text = folderDlg.SelectedPath;
+                Environment.SpecialFolder root = folderDlg.RootFolder;
+                direcotorioSeleccionado = true;
+                OnKeyTextChanged();
+            }
         }
     }
 }
