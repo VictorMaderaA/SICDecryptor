@@ -15,12 +15,6 @@ namespace SICLib.Manager
 
         private readonly string RXAlphaNumericChars = "[a-zA-Z0-9]";
         private readonly string RXHexChars = "[\x30-\x39]|[\x41-\x46]|[\x61-\x66]";
-        private readonly string RXCommonLettersChars = "[E|A|O|S|R|T]";
-        private readonly string RXSpaceChar = @"[\x20]";
-
-        private readonly string RXHexKey = @"([\s|\-|.|_|:]*[\x30-\x39]|[\x41-\x46]|[\x61-\x66]){2,}";
-        private readonly string RXWords = @"([^\W_]+[^\s,]*)";
-
 
 
         public StringBuilder(string line)

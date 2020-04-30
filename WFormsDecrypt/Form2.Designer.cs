@@ -442,8 +442,6 @@
             // checkBox_SkipLsb
             // 
             this.checkBox_SkipLsb.AutoSize = true;
-            this.checkBox_SkipLsb.Checked = true;
-            this.checkBox_SkipLsb.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBox_SkipLsb.Location = new System.Drawing.Point(374, 376);
             this.checkBox_SkipLsb.Name = "checkBox_SkipLsb";
             this.checkBox_SkipLsb.Size = new System.Drawing.Size(70, 17);

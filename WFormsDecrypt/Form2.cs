@@ -3,7 +3,6 @@ using SICLib.Manager;
 using SICLib.Models;
 using System;
 using System.IO;
-using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -82,7 +81,7 @@ namespace WFormsDecrypt
                 var keyBytes = PartialByte.GetBytesFromPartialBytes(PartialBytesArray);
                 var textoCifrado = Convert.FromBase64String(text_mensajeCifrado.Text);
                 var decryptedObj = new TDesService().Decrypt(keyBytes, textoCifrado);
-                text = decryptedObj.GetDecodedString(UTF8Encoding.UTF8);
+                text = decryptedObj.GetDecodedString(Encoding.UTF8);
             }
             catch (Exception ex)
             {
@@ -109,7 +108,6 @@ namespace WFormsDecrypt
             BruteDecryptorStarted();
             await Task.Run(() => decryptor.Decrypt());
             BruteFinished();
-
         }
 
 
@@ -119,6 +117,7 @@ namespace WFormsDecrypt
             btn_DecryptWForce.Enabled = false;
             btn_DecryptWKey.Enabled = false;
             checkBox_SkipLsb.Enabled = false;
+            button1.Enabled = false;
             InitProcessTimer();
             ProcessTimer.Start();
         }
@@ -137,6 +136,7 @@ namespace WFormsDecrypt
             btn_DecryptWForce.Enabled = true;
             btn_DecryptWKey.Enabled = true;
             checkBox_SkipLsb.Enabled = true;
+            button1.Enabled = true;
         }
 
 

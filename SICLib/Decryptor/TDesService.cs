@@ -9,87 +9,34 @@ namespace SICLib.Decryptor
     public class TDesService
     {
 
-        public TDesService()
-        {
-
-        }
-
-
         public DecryptedObject Decrypt(byte[] key, byte[] cryptedBytes)
         {
-            var response = Decryptor2301(cryptedBytes, key);
+            var response = DecryptFinal(cryptedBytes, key);
             return new DecryptedObject(response, key);
-
-            //
-
-            //var response = Decryptor2302(cryptedBytes, key);
-            //return new DecryptedObject(response, key);
         }
 
-        //==================================================================================
-
-        private byte[] Decryptor2301(byte[] Data, byte[] Key)
+        private string ByteArrayToString(byte[] ba)
         {
-            // Create a new MemoryStream using the passed 
-            // array of encrypted data.
-            MemoryStream msDecrypt = new MemoryStream(Data);
-
-            // Create a new TripleDES object.
-            TripleDES tripleDESalg = TripleDES.Create();
-            tripleDESalg.Key = Key;
-            tripleDESalg.Padding = PaddingMode.PKCS7;
-
-            // Create a CryptoStream using the MemoryStream 
-            // and the passed key and initialization vector (IV).
-            CryptoStream csDecrypt = new CryptoStream(msDecrypt,
-                tripleDESalg.CreateDecryptor(),CryptoStreamMode.Read);
-
-            // Create buffer to hold the decrypted data.
-            byte[] fromEncrypt = new byte[Data.Length];
-
-            // Read the decrypted data out of the crypto stream
-            // and place it into the temporary buffer.
-            csDecrypt.Read(fromEncrypt, 0, fromEncrypt.Length);
-
-            //Convert the buffer into a string and return it.
-            return fromEncrypt;
+            StringBuilder hex = new StringBuilder(ba.Length * 2);
+            foreach (byte b in ba)
+                hex.AppendFormat("{0:X2}", b);
+            return hex.ToString();
         }
 
-        //==================================================================================
 
-        private byte[] Decryptor2302(byte[] Data, byte[] Key)
+        private byte[] DecryptFinal(byte[] Data, byte[] Key)
         {
-            byte[] key1 = new byte[8], key2 = new byte[8], key3 = new byte[8];
-            Array.Copy(Key, 0, key1, 0, 8);
-            Array.Copy(Key, 8, key2, 0, 8);
-            Array.Copy(Key, 16, key3, 0, 8);
-            return DesDecrypt(DesEncrypt(DesDecrypt(Data, key3), key2), key1);
+            var MD5 = new MD5CryptoServiceProvider();
+            Key = MD5.ComputeHash(Encoding.UTF8.GetBytes(ByteArrayToString(Key)));
+            var tdes = new TripleDESCryptoServiceProvider()
+            {
+                Mode = CipherMode.ECB,
+                Padding = PaddingMode.PKCS7,
+                Key = Key
+            };
+            var decryptor = tdes.CreateDecryptor();
+            return decryptor.TransformFinalBlock(Data, 0, Data.Length);
         }
-
-
-        private DES CreateDes(byte[] key)
-        {
-            DES des = new DESCryptoServiceProvider();
-            des.Key = key;
-            return des;
-        }
-
-        public byte[] DesEncrypt(byte[] inBlock, byte[] key)
-        {
-            var symAlg = CreateDes(key);
-            ICryptoTransform xfrm = symAlg.CreateEncryptor();
-            return xfrm.TransformFinalBlock(inBlock, 0, inBlock.Length);
-        }
-
-        public byte[] DesDecrypt(byte[] inBytes, byte[] key)
-        {
-            var symAlg = CreateDes(key);
-            ICryptoTransform xfrm = symAlg.CreateDecryptor();
-            return xfrm.TransformFinalBlock(inBytes, 0, inBytes.Length);
-        }
-
-        //==================================================================================
-
 
     }
 }

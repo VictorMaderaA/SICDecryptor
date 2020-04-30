@@ -231,7 +231,7 @@ namespace SICLib.Manager
         {
             bool foundSomething = false;
             
-            string sDecryptOrig = decryptedObject.GetDecodedString(UTF8Encoding.UTF8);
+            string sDecryptOrig = decryptedObject.GetDecodedString(Encoding.UTF8);
 
             var sDecyptPrintable = new StringBuilder(sDecryptOrig).RemoveAsciiControllChars().RemoveNewLines().RemoveChar(';').GetString();
             if (new StringBuilder(sDecryptOrig).CountChar("[½|¿]") > 100)
