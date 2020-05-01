@@ -3,6 +3,7 @@ using SICLib.Manager;
 using SICLib.Models;
 using System;
 using System.IO;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -23,6 +24,7 @@ namespace WFormsDecrypt
         public form_decryptor1()
         {
             InitializeComponent();
+            OnKeyTextChanged();
         }
 
         private async void text_key_TextChangedAsync(object sender, EventArgs e)
@@ -51,10 +53,11 @@ namespace WFormsDecrypt
                 return;
             ShowHexKeyaFromPartialBytes(PartialBytesArray);
 
+            btn_DecryptWKey.Enabled = true;
+
             if (!direcotorioSeleccionado)
                 return;
             btn_DecryptWForce.Enabled = true;
-            btn_DecryptWKey.Enabled = true;
         }
 
         private void btn_loadKey_Click(object sender, EventArgs e)
@@ -240,6 +243,85 @@ namespace WFormsDecrypt
                 direcotorioSeleccionado = true;
                 OnKeyTextChanged();
             }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(input_d.Text)) { ShowErrorDoc2("Faltan Datos"); return; };
+            if (string.IsNullOrWhiteSpace(input_dp.Text)) { ShowErrorDoc2("Faltan Datos"); return; };
+            if (string.IsNullOrWhiteSpace(input_dq.Text)) { ShowErrorDoc2("Faltan Datos"); return; };
+            if (string.IsNullOrWhiteSpace(input_exponent.Text)) { ShowErrorDoc2("Faltan Datos"); return; };
+            if (string.IsNullOrWhiteSpace(input_inverseq.Text)) { ShowErrorDoc2("Faltan Datos"); return; };
+            if (string.IsNullOrWhiteSpace(input_modulus.Text)) { ShowErrorDoc2("Faltan Datos"); return; };
+            if (string.IsNullOrWhiteSpace(input_p.Text)) { ShowErrorDoc2("Faltan Datos"); return; };
+            if (string.IsNullOrWhiteSpace(input_q.Text)) { ShowErrorDoc2("Faltan Datos"); return; };
+
+            RSAParameters P;
+            try
+            {
+                P = new RSAParameters()
+                {
+                    D = Convert.FromBase64String(input_d.Text),
+                    DP = Convert.FromBase64String(input_dp.Text),
+                    DQ = Convert.FromBase64String(input_dq.Text),
+                    Exponent = Convert.FromBase64String(input_exponent.Text),
+                    InverseQ = Convert.FromBase64String(input_inverseq.Text),
+                    Modulus = Convert.FromBase64String(input_modulus.Text),
+                    P = Convert.FromBase64String(input_p.Text),
+                    Q = Convert.FromBase64String(input_q.Text)
+                };
+            }
+            catch(Exception)
+            {
+                ShowErrorDoc2("Datos Incorrectos"); 
+                return;
+            }
+
+            if (!string.IsNullOrWhiteSpace(input_criptedFrase1.Text))
+            {
+                var r = RSAService.Decrypt(input_criptedFrase1.Text, P);
+                if (r != null)
+                    output_Frase1.Text = new SICLib.Manager.StringBuilder(r).RemoveAsciiControllChars().GetString();
+                else
+                    output_Frase1.Text = "Error";
+            }
+            else
+            {
+                output_Frase1.Text = "NULL";
+            }
+
+            if (!string.IsNullOrWhiteSpace(input_criptedFrase2.Text))
+            {
+                var r = RSAService.Decrypt(input_criptedFrase2.Text, P);
+                if (r != null)
+                    output_Frase2.Text = new SICLib.Manager.StringBuilder(r).RemoveAsciiControllChars().GetString();
+                else
+                    output_Frase2.Text = "Error";
+            }
+            else
+            {
+                output_Frase2.Text = "NULL";
+            }
+
+            if (!string.IsNullOrWhiteSpace(input_criptedFrase3.Text))
+            {
+                var r = RSAService.Decrypt(input_criptedFrase3.Text, P);
+                if (r != null)
+                    output_Frase3.Text = new SICLib.Manager.StringBuilder(r).RemoveNoneAlphanumericChars().GetString();
+                else
+                    output_Frase3.Text = "Error";
+            }
+            else
+            {
+                output_Frase3.Text = "NULL";
+            }
+        }
+
+        private void ShowErrorDoc2(string Mensaje)
+        {
+            output_Frase1.Text = Mensaje;
+            output_Frase2.Text = Mensaje;
+            output_Frase3.Text = Mensaje;
         }
     }
 }

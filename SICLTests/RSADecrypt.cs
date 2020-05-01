@@ -39,14 +39,14 @@ namespace SICLTests
         [Test]
         public void Test1()
         {
-            b64_exponent = Convert.FromBase64String(exponentCifered);
-            b64_modulusBytes = Convert.FromBase64String(modulusCifered);
-            b64_pBytes = Convert.FromBase64String(pCifered);
-            b64_qBytes = Convert.FromBase64String(qCifered);
-            b64_dpBytes = Convert.FromBase64String(dpCifered);
-            b64_dqBytes = Convert.FromBase64String(dqCifered);
-            b64_inverseqBytes = Convert.FromBase64String(inverseqCifered);
-            b64_dBytes = Convert.FromBase64String(dCifered);
+            b64_exponent        = Convert.FromBase64String(exponentCifered);
+            b64_modulusBytes    = Convert.FromBase64String(modulusCifered);
+            b64_pBytes          = Convert.FromBase64String(pCifered);
+            b64_qBytes          = Convert.FromBase64String(qCifered);
+            b64_dpBytes         = Convert.FromBase64String(dpCifered);
+            b64_dqBytes         = Convert.FromBase64String(dqCifered);
+            b64_inverseqBytes   = Convert.FromBase64String(inverseqCifered);
+            b64_dBytes          = Convert.FromBase64String(dCifered);
 
             var result1 = Decryption(@"IlmhPFKroDuK4AUtBGfaf5J6791DzMenkUBEXfRwZ7rmBHswHTf02LAba/Hs+rsh3wL6dpMQlEhlaIAVHaZZsw==");
             var result2 = Decryption(@"AMbsYR1pq9WYUj3mdqKvJj7tMznqBAcZLxM2C6WzNEUOqKD/qdEE76bNJPmYFKwVei2rhuHFsxh7nUzXmVKRdw==");
@@ -82,11 +82,16 @@ namespace SICLTests
                     var decryptedData = Encoding.UTF8.GetString(decryptedBytes);
                     return decryptedData.ToString();
                 }
+                catch (Exception)
+                {
+
+                }
                 finally
                 {
                     rsa.PersistKeyInCsp = false;
                 }
             }
+            return null;
         }
 
     }

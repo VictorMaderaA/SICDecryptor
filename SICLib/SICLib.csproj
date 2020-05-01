@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Decryptor\RSAService.cs" />
     <Compile Include="Decryptor\TDesService.cs" />
     <Compile Include="Manager\DecryptorPlus.cs" />
     <Compile Include="Manager\FileManager.cs" />
